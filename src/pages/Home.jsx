@@ -3,6 +3,7 @@ import { Link, useNavigate } from 'react-router-dom'
 import { Button } from '../components/Button.jsx'
 import { Input } from '../components/Input.jsx'
 import { SectionHeading } from '../components/SectionHeading.jsx'
+import { blogPosts } from '../data/blogPosts.js'
 
 const navItems = [
   { label: 'Services', key: 'services', path: '/components#features' },
@@ -67,44 +68,11 @@ const flyoutMenus = {
   ]
 }
 
-const packageTiers = [
-  {
-    title: 'Foundation Package',
-    subtitle: 'Essential Outdoor Upgrade',
-    price: 'Starting at $15,000 – $25,000',
-    bullets: [
-      'Custom paver patio or walkway',
-      'Basic retaining or seat wall',
-      'Site preparation & base installation',
-      'Material consultation',
-      'Optional: lighting, planters, sealing',
-    ],
-  },
-  {
-    title: 'Signature Package',
-    subtitle: 'Entertainer’s Escape',
-    price: 'Starting at $35,000 – $60,000',
-    bullets: [
-      'Integrated patio, walkways & walls',
-      'Outdoor kitchen or grill island',
-      'Fire feature (gas or wood)',
-      'Accent lighting for ambiance & safety',
-      '3D design consultation',
-    ],
-  },
-  {
-    title: 'Estate Package',
-    subtitle: 'Luxury Outdoor Retreat',
-    price: 'Starting at $75,000+',
-    bullets: [
-      'Full hardscape & landscape integration',
-      'Custom kitchen & bar with premium materials',
-      'Fireplace and/or water feature',
-      'Pergolas, shade structures & lounge areas',
-      'Smart lighting & project management',
-    ],
-  },
-]
+const blogDateFormatter = new Intl.DateTimeFormat('en-US', {
+  month: 'long',
+  day: 'numeric',
+  year: 'numeric',
+})
 
 export default function Home() {
   const navigate = useNavigate()
@@ -172,36 +140,37 @@ export default function Home() {
             )}
           </header>
 
-          <section id="packages" className="space-y-10">
+          <section id="journal" className="space-y-10">
             <SectionHeading
-              eyebrow="Outdoor packages"
-              title="Choose the tier that matches your vision."
-              description="From simple patios to full estate retreats, each package scales with craftsmanship, materials, and concierge project management."
+              eyebrow="Field notes"
+              title="Monthly articles on contractors, pavers, and sustainable builds."
+              description="Follow the last 24 months of lessons learned—how we vet partners, specify durable materials, and keep every hardscape resilient."
             />
-            <div className="grid gap-6 md:grid-cols-3">
-              {packageTiers.map((tier, index) => (
-                <div
-                  key={tier.title}
-                  className="flex h-full flex-col rounded-3xl border border-nude/50 bg-white/80 p-6 shadow-mild"
+            <div className="grid gap-6 md:grid-cols-2">
+              {blogPosts.map(post => (
+                <article
+                  key={post.id}
+                  className="flex h-full flex-col justify-between rounded-3xl border border-nude/50 bg-white/80 p-6 shadow-mild"
                 >
-                  <div className="text-xs uppercase tracking-[0.4em] text-[color:var(--fg)]/60">Tier {index + 1}</div>
-                  <h3 className="mt-3 text-2xl font-semibold tracking-tight">{tier.title}</h3>
-                  <p className="text-sm text-olive">{tier.subtitle}</p>
-                  <p className="mt-4 text-sm font-medium text-[color:var(--fg)]/70">{tier.price}</p>
-                  <ul className="mt-6 space-y-3 text-sm text-[color:var(--fg)]/80">
-                    {tier.bullets.map(bullet => (
-                      <li key={bullet} className="flex items-start gap-3">
-                        <span className="mt-1 h-1.5 w-1.5 rounded-full bg-olive" />
-                        <span>{bullet}</span>
-                      </li>
-                    ))}
-                  </ul>
-                  <div className="mt-8 pt-4">
-                    <Button variant="outline" className="w-full">
-                      Learn more
-                    </Button>
+                  <div className="space-y-4">
+                    <div className="flex flex-wrap items-center gap-3 text-xs font-medium uppercase tracking-[0.3em] text-[color:var(--fg)]/60">
+                      <span className="rounded-full bg-olive/10 px-3 py-1 text-[0.7rem] tracking-[0.2em] text-olive">
+                        {post.category}
+                      </span>
+                      <time dateTime={post.date} className="tracking-[0.2em]">
+                        {blogDateFormatter.format(new Date(post.date))}
+                      </time>
+                      <span className="h-1 w-1 rounded-full bg-[color:var(--fg)]/40" />
+                      <span className="tracking-[0.2em]">{post.readTime}</span>
+                    </div>
+                    <h3 className="text-2xl font-semibold tracking-tight text-[color:var(--fg)]">{post.title}</h3>
+                    <p className="text-sm text-[color:var(--fg)]/80">{post.excerpt}</p>
                   </div>
-                </div>
+                  <div className="mt-6 flex items-center gap-3 text-sm font-semibold text-olive">
+                    <span className="text-base">Read the article</span>
+                    <span aria-hidden="true" className="text-lg">→</span>
+                  </div>
+                </article>
               ))}
             </div>
           </section>

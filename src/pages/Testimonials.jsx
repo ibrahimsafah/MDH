@@ -25,8 +25,7 @@ export default function TestimonialsPage() {
             <Testimonial
               key={testimonial.name}
               quote={testimonial.quote}
-              name={`${testimonial.name} · ${testimonial.origin}`}
-              title={testimonial.title}
+              name={testimonial.name}
               className="h-full bg-white"
             />
           ))}

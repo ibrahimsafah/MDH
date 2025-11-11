@@ -1,219 +1,320 @@
 import React, { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
-import { Button } from '../components/Button.jsx'
-import { Input } from '../components/Input.jsx'
 import { SectionHeading } from '../components/SectionHeading.jsx'
-import { blogPosts } from '../data/blogPosts.js'
+import { RequestQuote } from '../components/RequestQuote.jsx'
+import { Step } from '../components/Step.jsx'
+
+const InspireIcon = props => (
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true" {...props}>
+    <path d="M12 3v4" />
+    <path d="M12 17v4" />
+    <path d="M4.93 6.93l2.83 2.83" />
+    <path d="M16.24 18.24l2.83 2.83" />
+    <path d="M3 12h4" />
+    <path d="M17 12h4" />
+    <path d="M6.93 17.07l2.83-2.83" />
+    <path d="M18.24 5.76l-2.83 2.83" />
+    <circle cx="12" cy="12" r="3" />
+  </svg>
+)
+
+const DesignIcon = props => (
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true" {...props}>
+    <rect x="3.5" y="3.5" width="7" height="7" rx="1.5" />
+    <rect x="13.5" y="3.5" width="7" height="7" rx="1.5" />
+    <rect x="3.5" y="13.5" width="7" height="7" rx="1.5" />
+    <path d="M13.5 13.5h7v7h-7z" />
+  </svg>
+)
+
+const BuildIcon = props => (
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true" {...props}>
+    <path d="M7 7h10v6H7z" />
+    <path d="M5 19v-5h14v5" />
+    <path d="M3 19h18" />
+  </svg>
+)
+
+const AboutIcon = props => (
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true" {...props}>
+    <circle cx="12" cy="8" r="3.5" />
+    <path d="M5 20c1.5-3 4.5-5 7-5s5.5 2 7 5" />
+  </svg>
+)
 
 const navItems = [
-  { label: 'Services', key: 'services', path: '/components#features' },
-  { label: 'Inspiration', key: 'design', path: '/components#library' },
-  { label: 'Project Estimator', key: 'estimator', path: '/estimator' },
-  { label: 'Our process', key: 'process', path: '/components#insights' },
-  { label: 'Testimonials', key: 'testimonials', path: '/testimonials', noFlyout: true },
-  { label: 'Request a quote', key: 'quote', anchor: '#quote', noFlyout: true },
+  { label: 'Inspire', key: 'inspire', icon: InspireIcon },
+  { label: 'Design', key: 'design', icon: DesignIcon },
+  { label: 'Build', key: 'build', path: '/estimator', noFlyout: true, icon: BuildIcon },
+  { label: 'About us', key: 'about', path: '/about', noFlyout: true, icon: AboutIcon },
 ]
 
 const flyoutMenus = {
-  services: [
-    {
-      title: 'Bespoke estate sites',
-      description: 'Custom builds for hospitality, interiors, and residential launches with high-touch detail.',
-      meta: 'Flagship'
-    },
-    {
-      title: 'Brand systems',
-      description: 'Visual identities, typography scales, and palette curation embedded into your CMS.',
-      meta: 'New'
-    },
-    {
-      title: 'VIP retainers',
-      description: 'Ongoing design direction, CRO experiments, and seasonal refreshes.',
-      meta: 'Limited'
-    }
-  ],
-  design: [
-    {
-      title: 'Mosaics',
-      description: 'Responsive grid layouts inspired by tilework and botanical motifs.',
-      meta: 'Gallery'
-    },
-    {
-      title: 'Inspiration',
-      description: 'Mood boards and seasonal direction to align interiors with exterior experiences.',
-      meta: 'Inspiration'
-    },
-    {
-      title: 'Color guide',
-      description: 'Tone pairings and palette guidance to keep every page cohesive.',
-      meta: 'Palette'
-    }
-  ],
-  process: [
-    {
-      title: 'Discovery atelier',
-      description: 'In-depth workshops covering audience, brand rituals, and desired atmospheres.',
-      meta: 'Week 1'
-    },
-    {
-      title: 'Design studies',
-      description: 'Three narrative directions with mood films, palette pairings, and micro-interactions.',
-      meta: 'Week 2-3'
-    },
-    {
-      title: 'Build & handoff',
-      description: 'Component documentation, CMS setup, and concierge launch support.',
-      meta: 'Week 4+'
-    }
-  ]
+  inspire: {
+    type: 'stacked',
+    heading: 'Inspiration studio',
+    description: 'Seasonal palettes, layout studies, and tactile libraries to inform every outdoor build.',
+    items: [
+      {
+        title: 'Gallery',
+        description: 'Dive into built work, mood films, and layout studies to spark the next idea.',
+        meta: 'Showcase',
+        to: '/components#library',
+      },
+      {
+        title: 'Colors',
+        description: 'Tone pairings, seasonal palettes, and finish combinations curated for outdoor rooms.',
+        meta: 'Palette',
+        to: '/components#library',
+      },
+      {
+        title: 'Patterns & Mosaics',
+        description: 'Grid systems, inlays, and stone mosaics that balance rhythm with tactile detail.',
+        meta: 'Details',
+        to: '/components#library',
+      },
+    ],
+    footerActions: [
+      {
+        label: 'Browse the full library',
+        description: 'See every palette, board, and vignette we publish.',
+        to: '/components#library',
+      },
+      {
+        label: 'Book a design consult',
+        description: 'Share your mood board and we’ll refine it live.',
+        to: '#quote',
+      }
+    ]
+  },
+  design: {
+    type: 'grid',
+    cards: [
+      {
+        title: 'Discovery atelier',
+        description: 'In-depth workshops covering audience, brand rituals, and desired atmospheres.',
+        meta: 'Phase 01'
+      },
+      {
+        title: 'Design studies',
+        description: 'Three narrative directions with mood films, palette pairings, and micro-interactions.',
+        meta: 'Phase 02'
+      },
+      {
+        title: 'Construction docs',
+        description: 'Component documentation, CMS setup, and concierge launch support.',
+        meta: 'Phase 03'
+      },
+      {
+        title: 'Build & handoff',
+        description: 'Component documentation, CMS setup, and concierge launch support.',
+        meta: 'Phase 04'
+      }
+    ]
+  }
 }
 
-const blogDateFormatter = new Intl.DateTimeFormat('en-US', {
-  month: 'long',
-  day: 'numeric',
-  year: 'numeric',
-})
+const processSteps = [
+  {
+    title: 'Inspire',
+    subtitle: 'Consultation',
+    bullets: [
+      'We start with a personal design consultation to uncover your vision and lifestyle.',
+      'Together we explore layout ideas, key features, and your preferred style.',
+      'Then we refine materials, colors, and patterns to create harmony and inspiration.',
+      'We document site conditions with the latest surveying tech to steer each decision.',
+    ],
+  },
+  {
+    title: 'Design',
+    subtitle: 'Concept Studio',
+    description:
+      'Our studio turns the brief into layered drawings, renders, and build notes everyone can follow.',
+    bullets: [
+      'Masterplan covering grading, lighting, and planting arcs',
+      'Render set showing dawn brunch through midnight swim',
+      'Material + partner dossier with planting palettes and budgets',
+    ],
+  },
+  {
+    title: 'Build',
+    subtitle: 'Field Delivery',
+    description:
+      'We stay close through procurement and install, syncing trades and refining every detail.',
+    bullets: [
+      'Curated team selection with aligned bids',
+      'On-site direction from excavation to final styling',
+      'Care dossier outlining seasonal upkeep and hosting cues',
+    ],
+  },
+]
 
 export default function Home() {
   const navigate = useNavigate()
   const [openMenu, setOpenMenu] = useState(null)
 
-  const activeFlyout = openMenu && !navItems.find(item => item.key === openMenu)?.noFlyout ? flyoutMenus[openMenu] : null
+  const handleRoute = target => {
+    if (!target) return
+    if (target.startsWith('#')) {
+      const el = document.querySelector(target)
+      el?.scrollIntoView({ behavior: 'smooth', block: 'start' })
+      return
+    }
+    navigate(target)
+  }
+
+  const handleFlyoutNavigation = target => {
+    if (!target) return
+    setOpenMenu(null)
+    handleRoute(target)
+  }
+
+  const currentNavItem = navItems.find(item => item.key === openMenu)
+  const activeFlyout = currentNavItem && !currentNavItem.noFlyout ? flyoutMenus[openMenu] : null
 
   return (
     <div>
       <div className="min-h-screen bg-[var(--bg)] text-[var(--fg)]">
         <div className="mx-auto max-w-6xl px-6 py-10 space-y-20">
           <header
-            className="relative flex flex-wrap items-center gap-6 rounded-2xl border border-nude/40 bg-transparent p-6"
+            className="relative flex flex-wrap items-center gap-6 bg-transparent py-4"
             onMouseLeave={() => setOpenMenu(null)}
           >
-            <div className="flex flex-1 items-center">
-              <img
-                src="/maison-du-hardscape-logo.svg"
-                alt="Maison Du Hardscape — Where technology meets tradition"
-                className="h-32 w-auto object-contain"
-                loading="lazy"
-              />
+            <div>
+              <Link
+                to="/"
+                className="text-sm font-semibold uppercase tracking-[0.6em] text-[color:var(--fg)] hover:text-olive transition"
+              >
+                Maison Du Hardscape
+              </Link>
+              <div className="text-[0.75rem] font-medium uppercase tracking-[0.5em] text-olive">
+                Luxury Outdoor Living
+              </div>
             </div>
-            <nav className="relative flex flex-wrap items-center gap-4 text-sm font-medium text-olive">
+            <nav className="relative ml-auto flex flex-wrap items-center justify-end gap-4 text-sm font-medium text-olive">
               {navItems.map(item => (
                 <button
                   key={item.key}
                   type="button"
-                  className={`rounded-xl px-3 py-2 transition ${openMenu === item.key ? 'bg-olive/10 text-olive' : 'hover:text-olive'}`}
+                  className={`flex items-center gap-2 rounded-xl px-3 py-2 transition ${openMenu === item.key ? 'bg-olive/10 text-olive' : 'hover:text-olive'}`}
                   onMouseEnter={() => !item.noFlyout && setOpenMenu(item.key)}
                   onFocus={() => !item.noFlyout && setOpenMenu(item.key)}
                   onClick={() => {
                     setOpenMenu(prev => (prev === item.key ? null : item.key))
-                    if (item.path) {
+                    const target = item.path ?? item.anchor
+                    if (target) {
                       setOpenMenu(null)
-                      navigate(item.path)
-                      return
-                    }
-                    if (item.anchor) {
-                      setOpenMenu(null)
-                      const target = document.querySelector(item.anchor)
-                      target?.scrollIntoView({ behavior: 'smooth', block: 'start' })
+                      handleRoute(target)
                     }
                   }}
                 >
+                  {item.icon && <item.icon className="h-4 w-4" />}
                   {item.label}
                 </button>
               ))}
             </nav>
             {activeFlyout && (
               <div className="absolute left-0 top-full mt-4 w-full rounded-3xl border border-nude/50 bg-white/95 p-6 shadow-deep">
-                <div className="grid gap-4 md:grid-cols-3">
-                  {activeFlyout.map(card => (
-                    <div key={card.title} className="rounded-2xl border border-nude/40 bg-cream/40 p-4">
-                      <div className="flex items-center justify-between text-xs uppercase tracking-[0.35em] text-[color:var(--fg)]/50">
-                        <span>{card.meta}</span>
-                        <span className="h-1 w-8 rounded-full bg-olive/50" />
-                      </div>
-                      <h3 className="mt-3 text-xl font-semibold tracking-tight">{card.title}</h3>
-                      <p className="mt-2 text-sm text-[color:var(--fg)]/80">{card.description}</p>
+                {activeFlyout.type === 'stacked' ? (
+                  <div className="space-y-6">
+                    <div>
+                      <div className="text-xs uppercase tracking-[0.4em] text-[color:var(--fg)]/50">Inspiration</div>
+                      <h3 className="mt-2 text-2xl font-semibold tracking-tight">{activeFlyout.heading}</h3>
+                      <p className="mt-2 text-sm text-[color:var(--fg)]/80">{activeFlyout.description}</p>
                     </div>
-                  ))}
-                </div>
+                    <div className="space-y-3">
+                      {activeFlyout.items.map(item => (
+                        <button
+                          key={item.title}
+                          type="button"
+                          className="flex w-full items-start justify-between rounded-2xl border border-nude/40 bg-cream/50 p-4 text-left transition hover:-translate-y-0.5 hover:bg-cream"
+                          onClick={() => handleFlyoutNavigation(item.to)}
+                        >
+                          <div>
+                            <div className="text-xs uppercase tracking-[0.35em] text-[color:var(--fg)]/50">{item.meta}</div>
+                            <h4 className="mt-2 text-lg font-semibold tracking-tight">{item.title}</h4>
+                            <p className="mt-1 text-sm text-[color:var(--fg)]/80">{item.description}</p>
+                          </div>
+                          <span className="text-lg text-olive">→</span>
+                        </button>
+                      ))}
+                    </div>
+                    <div className="flex flex-wrap gap-4 border-t border-nude/40 pt-4 text-left">
+                      {activeFlyout.footerActions.map(action => (
+                        <button
+                          key={action.label}
+                          type="button"
+                          className="flex flex-1 min-w-[220px] flex-col rounded-2xl bg-olive/5 p-4 text-left transition hover:bg-olive/10"
+                          onClick={() => handleFlyoutNavigation(action.to)}
+                        >
+                          <span className="text-sm font-semibold text-olive">{action.label}</span>
+                          <span className="text-xs text-[color:var(--fg)]/70">{action.description}</span>
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+                ) : (
+                  <div className="grid gap-4 md:grid-cols-3">
+                    {activeFlyout.cards.map(card => (
+                      <div key={card.title} className="rounded-2xl border border-nude/40 bg-cream/40 p-4">
+                        <div className="flex items-center justify-between text-xs uppercase tracking-[0.35em] text-[color:var(--fg)]/50">
+                          <span>{card.meta}</span>
+                          <span className="h-1 w-8 rounded-full bg-olive/50" />
+                        </div>
+                        <h3 className="mt-3 text-xl font-semibold tracking-tight">{card.title}</h3>
+                        <p className="mt-2 text-sm text-[color:var(--fg)]/80">{card.description}</p>
+                      </div>
+                    ))}
+                  </div>
+                )}
               </div>
             )}
           </header>
 
-          <section id="journal" className="space-y-10">
+          <section className="space-y-10">
             <SectionHeading
-              eyebrow="Field notes"
-              title="Monthly articles on contractors, pavers, and sustainable builds."
-              description="Follow the last 24 months of lessons learned—how we vet partners, specify durable materials, and keep every hardscape resilient."
+              eyebrow="Our three step process"
+              title="From first spark to finished terrace."
+              description="Inspire, Design, Build—every phase hands off cleanly so the next move stays clear."
             />
-            <div className="grid gap-6 md:grid-cols-2">
-              {blogPosts.map(post => (
-                <article
-                  key={post.id}
-                  className="flex h-full flex-col justify-between rounded-3xl border border-nude/50 bg-white/80 p-6 shadow-mild"
-                >
-                  <div className="space-y-4">
-                    <div className="flex flex-wrap items-center gap-3 text-xs font-medium uppercase tracking-[0.3em] text-[color:var(--fg)]/60">
-                      <span className="rounded-full bg-olive/10 px-3 py-1 text-[0.7rem] tracking-[0.2em] text-olive">
-                        {post.category}
-                      </span>
-                      <time dateTime={post.date} className="tracking-[0.2em]">
-                        {blogDateFormatter.format(new Date(post.date))}
-                      </time>
-                      <span className="h-1 w-1 rounded-full bg-[color:var(--fg)]/40" />
-                      <span className="tracking-[0.2em]">{post.readTime}</span>
+            <div className="flex flex-col gap-6 lg:grid lg:grid-cols-[minmax(0,1fr)_auto_minmax(0,1fr)_auto_minmax(0,1fr)] lg:items-stretch">
+              {processSteps.map((step, index) => (
+                <React.Fragment key={step.title}>
+                  <Step
+                    title={step.title}
+                    subtitle={step.subtitle}
+                    description={step.description}
+                    bullets={step.bullets}
+                  />
+                  {index < processSteps.length - 1 && (
+                    <div className="flex items-center justify-center lg:h-full lg:flex-col lg:gap-6 lg:justify-center">
+                      <div className="hidden lg:block h-16 w-px bg-olive/30" />
+                      <svg
+                        className="h-8 w-8 text-olive"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        strokeWidth="1.5"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        aria-hidden="true"
+                      >
+                        <path d="M5 12h14" />
+                        <path d="M13 6l6 6-6 6" />
+                      </svg>
+                      <div className="hidden lg:block h-16 w-px bg-olive/30" />
                     </div>
-                    <h3 className="text-2xl font-semibold tracking-tight text-[color:var(--fg)]">{post.title}</h3>
-                    <p className="text-sm text-[color:var(--fg)]/80">{post.excerpt}</p>
-                  </div>
-                  <div className="mt-6 flex items-center gap-3 text-sm font-semibold text-olive">
-                    <span className="text-base">Read the article</span>
-                    <span aria-hidden="true" className="text-lg">→</span>
-                  </div>
-                </article>
+                  )}
+                </React.Fragment>
               ))}
             </div>
           </section>
 
-          <section
-            id="quote"
-            className="space-y-8 rounded-3xl border border-nude/50 bg-white/80 p-8 shadow-mild"
-          >
-            <SectionHeading
-              eyebrow="Request a quote"
-              title="Tell us about your space."
-              description="Share how you plan to use your patio and the Techo-Bloc finishes you love. We’ll follow up with a tailored scope and schedule a site measure."
-            />
-            <form className="space-y-6">
-              <div className="grid gap-4 md:grid-cols-2">
-                <Input label="Name" placeholder="Full name" required />
-                <Input label="Email" placeholder="you@home.com" type="email" required />
-              </div>
-              <Input label="Phone" placeholder="(555) 123-4567" type="tel" />
-              <div className="space-y-2">
-                <label className="block text-sm font-medium text-[color:var(--fg)]">Project details</label>
-                <textarea
-                  className="min-h-[140px] w-full rounded-2xl border border-nude/50 bg-white/90 p-4 text-sm text-[color:var(--fg)] outline-none focus:border-olive focus:ring-2 focus:ring-olive/30"
-                  placeholder="Describe how you’ll use the space, preferred Techo-Bloc products, and any must-have features."
-                  required
-                />
-              </div>
-              <div className="text-right">
-                <Button size="lg" type="submit">
-                  Submit request
-                </Button>
-              </div>
-            </form>
-          </section>
+          <RequestQuote />
 
           <footer className="flex flex-wrap items-center justify-between gap-4 border-t border-nude/40 pt-6 text-sm text-[color:var(--fg)]/70">
-            <span>© {new Date().getFullYear()} Eirén Studio</span>
-            <div className="flex flex-wrap gap-4">
-              <Link to="/components" className="hover:text-olive transition">Components</Link>
-              <Link to="/components#features" className="hover:text-olive transition">Features</Link>
-              <Link to="/components#library" className="hover:text-olive transition">Library</Link>
-              <Link to="/components#insights" className="hover:text-olive transition">Insights</Link>
-            </div>
+            <span>© {new Date().getFullYear()} Maison Du Hardscape</span>
+            <span className="tracking-[0.35em] uppercase text-xs text-olive">Luxury Outdoor Living</span>
           </footer>
         </div>
       </div>

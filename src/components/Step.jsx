@@ -13,6 +13,7 @@ export const Step = ({
   bullets = [],
   className = '',
   children,
+  icon: Icon,
 }) => {
   const combinedClassName = `${baseClasses} ${className}`.trim()
   const hasHeading = Boolean(subtitle || title)
@@ -23,7 +24,12 @@ export const Step = ({
       {hasHeading && (
         <header className="space-y-2">
           {subtitle && <div className={eyebrowClasses}>{subtitle}</div>}
-          {title && <h3 className={titleClasses}>{title}</h3>}
+          {title && (
+            <h3 className={`${titleClasses} flex items-center gap-3`}>
+              {Icon && <Icon className="h-6 w-6 text-olive" aria-hidden="true" />}
+              <span>{title}</span>
+            </h3>
+          )}
         </header>
       )}
       {hasHeading && hasBodyContent && <div className="my-4 h-px w-full bg-nude/50" />}

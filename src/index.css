@@ -3,16 +3,16 @@
 @tailwind utilities;
 
 :root {
-  --bg: #F8F3EC;
-  --fg: #2E2E2E;
-  --cream: #FFE8D6;
-  --olive: #6B705C;
-  --sage: #A5A58D;
-  --nude: #DDBEA9;
-  --indigo: #3D405B;
+  --bg: #F3EFE6;
+  --fg: #2B231B;
+  --cream: #E7DCC7;
+  --olive: #6F6A4A;
+  --sage: #A5B19D;
+  --nude: #C8A689;
+  --indigo: #433730;
 }
 
 .dark {
-  --bg: #2E2E2E;
-  --fg: #FFE8D6;
+  --bg: #2B231B;
+  --fg: #F3EFE6;
 }

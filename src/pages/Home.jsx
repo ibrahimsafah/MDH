@@ -35,6 +35,39 @@ const BuildIcon = props => (
   </svg>
 )
 
+const SparkIcon = props => (
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true" {...props}>
+    <circle cx="12" cy="12" r="3" />
+    <path d="M12 2v3" />
+    <path d="M12 19v3" />
+    <path d="M4.22 4.22 6.34 6.34" />
+    <path d="M17.66 17.66l2.12 2.12" />
+    <path d="M2 12h3" />
+    <path d="M19 12h3" />
+    <path d="m4.22 19.78 2.12-2.12" />
+    <path d="m17.66 6.34 2.12-2.12" />
+  </svg>
+)
+
+const BlueprintIcon = props => (
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true" {...props}>
+    <rect x="4" y="4" width="16" height="16" rx="2" />
+    <path d="M8 4v16" />
+    <path d="M4 10h16" />
+    <path d="M12 10v6l4-2" />
+  </svg>
+)
+
+const HammerIcon = props => (
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true" {...props}>
+    <path d="M4 9h7l2-2h5" />
+    <path d="m14 7 3 3" />
+    <path d="M5 9v12" />
+    <path d="M9 9v12" />
+    <path d="m5 21 4-4" />
+  </svg>
+)
+
 const AboutIcon = props => (
   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true" {...props}>
     <circle cx="12" cy="8" r="3.5" />
@@ -118,6 +151,7 @@ const processSteps = [
   {
     title: 'Inspire',
     subtitle: 'Consultation',
+    icon: SparkIcon,
     bullets: [
       'We start with a personal design consultation to uncover your vision and lifestyle.',
       'Together we explore layout ideas, key features, and your preferred style.',
@@ -128,6 +162,7 @@ const processSteps = [
   {
     title: 'Design',
     subtitle: 'Concept Studio',
+    icon: BlueprintIcon,
     description:
       'Our studio turns the brief into layered drawings, renders, and build notes everyone can follow.',
     bullets: [
@@ -139,6 +174,7 @@ const processSteps = [
   {
     title: 'Build',
     subtitle: 'Field Delivery',
+    icon: HammerIcon,
     description:
       'We stay close through procurement and install, syncing trades and refining every detail.',
     bullets: [
@@ -285,6 +321,7 @@ export default function Home() {
                     subtitle={step.subtitle}
                     description={step.description}
                     bullets={step.bullets}
+                    icon={step.icon}
                   />
                   {index < processSteps.length - 1 && (
                     <div className="flex items-center justify-center lg:h-full lg:flex-col lg:gap-6 lg:justify-center">
